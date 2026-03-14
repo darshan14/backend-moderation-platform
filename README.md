@@ -1,15 +1,47 @@
-Functional Requirements 
-1. Moderator Login 
-○ A moderator logs in by providing their user_id and region 
-2. View Available Events 
-○ A logged-in moderator can see unassigned, unexpired events for their region 
-only 
-3. Claim an Event 
-○ A moderator can claim an available event 
-○ The event is locked for 15 minutes from the time of assignment 
-4. Acknowledge an Event 
-○ Within 15 minutes, a moderator can acknowledge that they’ve started 
-reviewing it 
-5. Automatic Expiry/Reassignment 
-○ If an event is not acknowledged within 15 minutes, it becomes available again 
-for others to claim 
+##Tech Stack:
+- *Programming Language:* Python 3.13.12
+- *Libraries:* FastAPI, sqlalchemy
+- *Database:* PostgreSQL
+
+##Database URL:
+postgresql://postgres:postgres@localhost:5432/moderation_db
+
+##Database Tables:
+*tbmoderator*
+---------
+id
+region
+
+*tbevent*
+---------
+event_id
+region
+payload
+is_claim
+
+*tbassignment*
+---------
+id
+event_id
+moderator_id
+dt_tm_claim
+dt_tm_expire
+is_acknowledge
+
+##Endpoint
+- Connection Test: http://127.0.0.1:8000
+- Post Login User: http://127.0.0.1:8000/moderator/login/{moderator_id}
+- Get Available Events: http://127.0.0.1:8000/moderator/events/{moderator_id}
+- Post Claim Event: http://127.0.0.1:8000/moderator/claim
+    Response Body: {
+    "event_id": 3,
+    "moderator_id": 1
+    }
+
+- Post Acknowledge Event: http://127.0.0.1:8000/moderator/acknowledge
+    Response Body: {
+    "event_id": 3,
+    "moderator_id": 1
+    }
+
+- Post Expiry Event: http://127.0.0.1:8000/moderator/expire/{event_id}

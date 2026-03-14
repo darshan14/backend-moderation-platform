@@ -1,12 +1,12 @@
 from fastapi import FastAPI
-from app.database.connection import engine, Base
-import app.database.models 
+from app.database.init_db import init_db
+from app.routes import moderator_routes
 
 app = FastAPI()
 
-# create tables
-Base.metadata.create_all(bind=engine)
+init_db()
 
+app.include_router(moderator_routes.router)
 
 @app.get("/")
 def home():

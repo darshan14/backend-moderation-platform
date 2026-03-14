@@ -1,5 +1,6 @@
 from app.database.connection import Base
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -10,19 +11,19 @@ class Moderator(Base):
     id = Column(Integer, primary_key=True, index=True)
     region = Column(String, nullable=False)
 
-    assignments = relationship("EventAssignment", back_populates="moderator")
+    assignments = relationship("Assignment", back_populates="moderator")
 
 class Event(Base):
     __tablename__ = "tbevent"
 
     event_id = Column(Integer, primary_key=True, index=True)
     region = Column(String, nullable=False)
-    payload = Column(String, nullable=True)
+    payload = Column(JSONB, nullable=True)
     is_claim = Column(Boolean, default=False)
 
-    assignments = relationship("EventAssignment", back_populates="event")
+    assignments = relationship("Assignment", back_populates="event")
 
-class EventAssignment(Base):
+class Assignment(Base):
     __tablename__ = "tbassignment"
 
     id = Column(Integer, primary_key=True, index=True)

@@ -1,0 +1,49 @@
+backend/
+│
+├── app/
+│   ├── main.py
+│   │
+│   ├── database/
+│   │   ├── connection.py
+│   │   └── models.py
+│   │
+│   ├── routers/
+│   │   └── moderator_routes.py
+│   │
+│   ├── services/
+│   │   └── moderator_service.py
+│   │
+│   ├── schemas/
+│   │   └── moderator_schema.py
+│   │
+│   └── config/
+│       └── settings.py
+│
+├── requirements.txt
+└── .env
+
+Database Schema:
+tbmoderator
+---------
+id
+region
+
+tbevent
+---------
+event_id
+region
+payload
+is_claim
+
+tbassignment
+---------
+id
+event_id
+moderator_id
+dt_tm_claim
+dt_tm_expire
+is_acknowledge
+
+Coomands to Run:
+python -m app.database.SeedData
+python -m uvicorn app.main:app --reload
